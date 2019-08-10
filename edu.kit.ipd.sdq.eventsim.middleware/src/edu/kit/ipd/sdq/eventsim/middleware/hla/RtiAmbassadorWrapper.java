@@ -4,6 +4,8 @@ import edu.kit.ipd.sdq.eventsim.middleware.hla.adaption.AbstractConverter;
 import edu.kit.ipd.sdq.eventsim.middleware.hla.adaption.EncoderService;
 import edu.kit.ipd.sdq.eventsim.middleware.hla.adaption.Integer32Converter;
 import edu.kit.ipd.sdq.eventsim.middleware.hla.adaption.StringConverter;
+import hla.rti1516e.InteractionClassHandle;
+import hla.rti1516e.ParameterHandle;
 import hla.rti1516e.RTIambassador;
 import hla.rti1516e.RtiFactoryFactory;
 import hla.rti1516e.encoding.EncoderFactory;
@@ -16,6 +18,9 @@ public class RtiAmbassadorWrapper {
 	
 	private RtiDataContainer rtiData;
 	
+	private InteractionClassHandle eventTriggeredHandle;
+	private ParameterHandle eventNameHandle;
+	
 	public RtiAmbassadorWrapper(RtiDataContainer rtiData) throws RTIinternalError {
 		this.rtiData=rtiData;
 		
@@ -23,6 +28,10 @@ public class RtiAmbassadorWrapper {
 		encoderFactory = RtiFactoryFactory.getRtiFactory().getEncoderFactory();
 		
 		setupAdaption();
+	}
+	
+	public void connectAndJoin() {
+		//TODO: 
 	}
 	
 	
@@ -34,6 +43,21 @@ public class RtiAmbassadorWrapper {
 		
 		rtiData.encoderService.addConverter(stringConverter);
 		rtiData.encoderService.addConverter(integer32Converter);
+	}
+	
+	public void publish() {
+		try {
+			eventTriggeredHandle = rtiambassador.getInteractionClassHandle("HLAinteractionRoot.EventTriggered");
+			rtiambassador.publishInteractionClass(eventTriggeredHandle);
+			eventNameHandle = rtiambassador.getParameterHandle(eventTriggeredHandle, "EventName");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void subscribe() {
+		
 	}
 	
 }
