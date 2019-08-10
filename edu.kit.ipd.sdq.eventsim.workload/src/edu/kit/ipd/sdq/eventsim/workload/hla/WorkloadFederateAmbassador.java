@@ -1,5 +1,9 @@
 package edu.kit.ipd.sdq.eventsim.workload.hla;
 
-public class WorkloadFederateAmbassador {
+import hla.rti1516e.NullFederateAmbassador;
 
+public class WorkloadFederateAmbassador extends NullFederateAmbassador{
+
+	public WorkloadFederateAmbassador(){};
+	
 }
