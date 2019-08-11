@@ -9,7 +9,6 @@ import hla.rti1516e.NullFederateAmbassador;
 import hla.rti1516e.OrderType;
 import hla.rti1516e.ParameterHandleValueMap;
 import hla.rti1516e.TransportationTypeHandle;
-import hla.rti1516e.FederateAmbassador.SupplementalReceiveInfo;
 import hla.rti1516e.exceptions.FederateInternalError;
 
 public class WorkloadFederateAmbassador extends NullFederateAmbassador{
@@ -90,7 +89,7 @@ public class WorkloadFederateAmbassador extends NullFederateAmbassador{
 					String.class.getTypeName(), 
 					theParameters.get(rtiData.eventNameHandle)
 			);
-			//TODO: from here, (maybe invoke the callbackHandler?!) deliver the SImulationPrepareEvent to the EventSimWorkloadModel
+			cbHandler.handleTriggeredEvent(eventName);
 		}
 		
 	}

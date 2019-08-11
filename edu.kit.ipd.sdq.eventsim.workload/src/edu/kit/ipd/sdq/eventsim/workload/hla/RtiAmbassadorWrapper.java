@@ -4,11 +4,18 @@ import edu.kit.ipd.sdq.eventsim.workload.hla.adaption.AbstractConverter;
 import edu.kit.ipd.sdq.eventsim.workload.hla.adaption.EncoderService;
 import edu.kit.ipd.sdq.eventsim.workload.hla.adaption.Integer32Converter;
 import edu.kit.ipd.sdq.eventsim.workload.hla.adaption.StringConverter;
+
+import java.io.File;
+import java.net.URL;
+
+import edu.kit.ipd.sdq.eventsim.workload.hla.EventSimHLAvalues;
 import edu.kit.ipd.sdq.eventsim.workload.hla.RtiDataContainer;
+import hla.rti1516e.FederateAmbassador;
 import hla.rti1516e.RTIambassador;
 import hla.rti1516e.RtiFactoryFactory;
 import hla.rti1516e.encoding.EncoderFactory;
 import hla.rti1516e.exceptions.FederateNotExecutionMember;
+import hla.rti1516e.exceptions.FederationExecutionAlreadyExists;
 import hla.rti1516e.exceptions.NameNotFound;
 import hla.rti1516e.exceptions.NotConnected;
 import hla.rti1516e.exceptions.RTIinternalError;
@@ -32,8 +39,16 @@ public class RtiAmbassadorWrapper {
 	
 	
 	
-	public void connectAndJoin() {
-		//TODO: 
+	public void connectAndJoin(FederateAmbassador fedamb, String fedName) {
+		try {
+			rtiambassador.connect(fedamb, EventSimHLAvalues.callbackMode);
+			
+			URL[] fom = new URL[] { (new File("FOMs/EventSimFOM.xml")).toURI().toURL() };
+			rtiambassador.joinFederationExecution(fedName, "EventSimWorkload", "EventSimWorkload", fom);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void publish() {
